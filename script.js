@@ -9,7 +9,7 @@ const disStatus = document.getElementById("display-status")
 
 display.textContent = 0
 disStatus.textContent = '-'
-
+let outcome = ''
 
 
 // add event listeners for buttons
@@ -32,6 +32,7 @@ operatorBtn.forEach((btn) => {
 clearBtn.addEventListener("click", () => {
     display.textContent = 0
     disStatus.textContent = '-'
+    outcome = ''
 })
 
 // decimal button
@@ -73,8 +74,14 @@ const showValue = (value) => {
 const operatorValue = (value) => {
     if (disStatus.textContent == '-' && display.textContent == '0'){
         return
+    } else if (disStatus.textContent.includes('=')) {
+        disStatus.textContent = outcome
+    } else if (value.textContent.includes('-') && ['+', '-', '*', '/'].includes(display.textContent) && disStatus.textContent.slice(-1) !== "-") {
+        disStatus.textContent += ' ' + display.textContent
+    } else if (['+', '-', '*', '/'].includes(display.textContent)) {
+        display.textContent = value.textContent
     } else if (disStatus.textContent == '-'){
-        disStatus.textContent = display.textContent
+        disStatus.textContent += display.textContent
     } else {
         disStatus.textContent += ' ' + display.textContent
     }
