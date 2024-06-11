@@ -53,8 +53,6 @@ equalsBtn.addEventListener("click", () => {
     outcome = eval(disStatus.textContent)
     disStatus.textContent += ' = ' + outcome
     display.textContent = outcome
-    
-    
 })
 
 // show value in display
@@ -63,8 +61,15 @@ const showValue = (value) => {
         disStatus.textContent = '-'
         display.textContent = value.textContent
     } else if (['+', '-', '*', '/'].includes(display.textContent)) {
-        disStatus.textContent += ' ' + display.textContent
-        display.textContent = value.textContent
+                if (display.textContent === '-') {
+                   disStatus.textContent += ' ' + display.textContent
+                    display.textContent = value.textContent  
+                } else if (['+', '-', '*', '/'].includes(disStatus.textContent.slice(-3))){
+                    console.log('found')
+                } else {
+                    disStatus.textContent += ' ' + display.textContent
+                    display.textContent = value.textContent  
+                }
     } else {
         display.textContent += value.textContent
     }
@@ -76,12 +81,14 @@ const operatorValue = (value) => {
         return
     } else if (disStatus.textContent.includes('=')) {
         disStatus.textContent = outcome
+        // code above works
     } else if (value.textContent.includes('-') && ['+', '-', '*', '/'].includes(display.textContent) && disStatus.textContent.slice(-1) !== "-") {
         disStatus.textContent += ' ' + display.textContent
+         // code below works
     } else if (['+', '-', '*', '/'].includes(display.textContent)) {
         display.textContent = value.textContent
     } else if (disStatus.textContent == '-'){
-        disStatus.textContent += display.textContent
+        disStatus.textContent = display.textContent
     } else {
         disStatus.textContent += ' ' + display.textContent
     }
@@ -89,3 +96,6 @@ const operatorValue = (value) => {
     display.textContent = value.textContent
 }
 
+
+    
+    
