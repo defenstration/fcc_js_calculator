@@ -1,7 +1,7 @@
 const numButtons = document.querySelectorAll(".num-btn")
 const operatorBtn = document.querySelectorAll(".op-btn")
 const equalsBtn = document.getElementById("equals")
-const clearBtn = document.getElementById(".clear")
+const clearBtn = document.getElementById("clear")
 const decimalBtn = document.getElementById("decimal")
 const display = document.getElementById("display")
 const disStatus = document.getElementById("display-status")
@@ -29,16 +29,37 @@ operatorBtn.forEach((btn) => {
 })
 
 // clear button
+clearBtn.addEventListener("click", () => {
+    display.textContent = 0
+    disStatus.textContent = '-'
+})
 
 // decimal button
+decimalBtn.addEventListener("click", () => {
+    if (display.textContent.includes('.')) {
+        return
+    } else {
+        display.textContent += '.'
+    }
+})
 
 // equals button
-
-
+equalsBtn.addEventListener("click", () => {
+    if (display.textContent && !['+', '-', '*', '/'].includes(display.textContent)) {
+        disStatus.textContent += ' ' + display.textContent
+    }
+    // generate outcome
+    outcome = eval(disStatus.textContent)
+    disStatus.textContent += ' = ' + outcome
+    display.textContent = outcome
+    
+    
+})
 
 // show value in display
 const showValue = (value) => {
-    if (display.textContent == '0'){
+    if (display.textContent == '0' || disStatus.textContent.includes('=')){
+        disStatus.textContent = '-'
         display.textContent = value.textContent
     } else if (['+', '-', '*', '/'].includes(display.textContent)) {
         disStatus.textContent += ' ' + display.textContent
@@ -50,7 +71,9 @@ const showValue = (value) => {
 
 // operator button - show operator and add display value to status
 const operatorValue = (value) => {
-    if (disStatus.textContent == '-'){
+    if (disStatus.textContent == '-' && display.textContent == '0'){
+        return
+    } else if (disStatus.textContent == '-'){
         disStatus.textContent = display.textContent
     } else {
         disStatus.textContent += ' ' + display.textContent
@@ -58,3 +81,4 @@ const operatorValue = (value) => {
 
     display.textContent = value.textContent
 }
+
