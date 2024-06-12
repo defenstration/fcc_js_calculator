@@ -60,16 +60,22 @@ const showValue = (value) => {
     if (display.textContent == '0' || disStatus.textContent.includes('=')){
         disStatus.textContent = '-'
         display.textContent = value.textContent
-    } else if (['+', '-', '*', '/'].includes(display.textContent)) {
-                if (display.textContent === '-') {
-                   disStatus.textContent += ' ' + display.textContent
-                    display.textContent = value.textContent  
-                } else if (['+', '-', '*', '/'].includes(disStatus.textContent.slice(-3))){
-                    console.log('found')
-                } else {
-                    disStatus.textContent += ' ' + display.textContent
-                    display.textContent = value.textContent  
-                }
+    } else if (['+', '*', '/'].includes(display.textContent)) {
+        if (['+', '-', '*', '/'].includes(disStatus.textContent.slice(-1))) {
+            disStatus.textContent = disStatus.textContent.slice(0, -1)
+            disStatus.textContent += display.textContent
+            display.textContent = value.textContent
+        } else {
+            disStatus.textContent += ' ' + display.textContent
+            display.textContent = value.textContent  
+        }
+    } else if (display.textContent.includes('-')) {
+        if (['+', '-', '*', '/'].includes(disStatus.textContent.slice(-1))) {
+            display.textContent += value.textContent
+        } else {
+            disStatus.textContent += ' ' + display.textContent
+            display.textContent = value.textContent
+        }
     } else {
         display.textContent += value.textContent
     }
